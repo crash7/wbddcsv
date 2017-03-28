@@ -23,10 +23,10 @@ def createDD_csv(catalog):
 	csvlines.append(" ; ; ;TITULO; ; ; ; ; ; ")
 
 	# Columns
-	csvlines.append("Nombre;Tabla;Tipo de campo;Tipo de dato;Longitud;PK;FK;Referencia;No nulo;Descripción")
+	csvlines.append("Tabla;Nombre;Tipo de campo;Tipo de dato;Longitud;PK;FK;Referencia;UNIQUE;Nulo;Descripción")
 
 	for table in tables:
-		csvlines.append("%s;%s;Tabla; ; ; ; ; ; ;%s" % (table.name, table.name, str(table.comment).strip()))
+		#csvlines.append("%s;%s;Tabla; ; ; ; ; ; ;%s" % (table.name, table.name, str(table.comment).strip()))
 		# FK's
 		fkslist = {}
 		for fk in table.foreignKeys:
@@ -51,7 +51,8 @@ def createDD_csv(catalog):
 			row.append("PK" if table.isPrimaryKeyColumn(column) else "")
 			row.append("FK" if fkslist.has_key(column.name) else "")
 			row.append(fkslist[column.name] if fkslist.has_key(column.name) else "")
-			row.append("NN" if column.isNotNull == 1 else "")
+			row.append('')
+			row.append("No" if column.isNotNull == 1 else "Si")
 			row.append(str(column.comment).strip())
 
 			csvlines.append(";".join(row))
